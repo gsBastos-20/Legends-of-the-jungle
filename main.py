@@ -5,6 +5,15 @@ from sys import exit
 import pygame.docs
 
 pygame.init()
+
+#funções para o jogo
+def sair_menu():
+    global menu, musica_game
+    menu = False
+    musica_game = pygame.mixer.music.load("musicas\\jungle.mp3")
+    musica_game = pygame.mixer.music.play(-1)
+
+
 # variaveis tela
 largura_tela = 990
 meio_largura_tela = largura_tela // 2
@@ -35,8 +44,7 @@ start_formatado = fonte_menu.render(mensagem, False, (160, 42, 45))
 pygame.mixer.music.set_volume(0.4)
 musica_menu = pygame.mixer.music.load("musicas\\overworld-day.mp3")
 musica_menu = pygame.mixer.music.play(-1)
-musica_game = pygame.mixer.music.load("musicas\\jungle.mp3")
-musica_game = pygame.mixer.music.play(-1)
+
 
 rodando = True
 while rodando:
@@ -51,7 +59,7 @@ while rodando:
                 exit()
             if event.type == KEYDOWN:
                 if event.key == K_z:
-                    menu = False
+                    sair_menu()
         pygame.display.flip()
     
 

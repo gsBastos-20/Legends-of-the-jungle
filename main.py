@@ -1,6 +1,6 @@
 import pygame
 from pygame.locals import *
-from sys import exit
+import sys
 
 import pygame.docs
 
@@ -56,7 +56,7 @@ while rodando:
             if event.type == QUIT:
                 rodando = False
                 pygame.quit()
-                exit()
+                sys.exit()
             if event.type == KEYDOWN:
                 if event.key == K_z:
                     sair_menu()

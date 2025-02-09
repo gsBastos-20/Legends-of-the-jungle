@@ -1,18 +1,20 @@
 import pygame
 from pygame.locals import *
 import sys
-
-import pygame.docs
-
+import os
 pygame.init()
+
+# diretorios
+diretorio_principal = os.path.dirname(__file__)
+diretorio_sprites = os.path.join(diretorio_principal, "sprites")
+diretorio_musicas = os.path.join(diretorio_principal, "musicas")
 
 #funções para o jogo
 def sair_menu():
     global menu, musica_game
     menu = False
-    musica_game = pygame.mixer.music.load("musicas\\jungle.mp3")
+    musica_game = pygame.mixer.music.load(os.path.join(diretorio_musicas, "jungle.mp3"))
     musica_game = pygame.mixer.music.play(-1)
-
 
 # variaveis tela
 largura_tela = 990
@@ -20,19 +22,19 @@ meio_largura_tela = largura_tela // 2
 altura_tela = 555
 tela = pygame.display.set_mode((largura_tela, altura_tela))
 pygame.display.set_caption("Legends Of The Jungle")
-icon = pygame.image.load("sprites\\icon-game.png")
+icon = pygame.image.load(os.path.join(diretorio_sprites, "icon-game.png")).convert_alpha()
 pygame.display.set_icon(icon)
 
 # relogio fps
 relogio = pygame.time.Clock()
 
 # config. imagem de fundo do menu
-fundo_menu = pygame.image.load("sprites\\fundo-menu.jpg").convert()
+fundo_menu = pygame.image.load(os.path.join(diretorio_sprites, "fundo-menu.jpg")).convert()
 fundo_menu = pygame.transform.scale(fundo_menu, (largura_tela, altura_tela))
 menu = True
 
 #config. imagem de fundo durante game
-fundo_game = pygame.image.load("sprites\\fundo_game.png")
+fundo_game = pygame.image.load(os.path.join(diretorio_sprites, "fundo_game.png")).convert()
 fundo_game = pygame.transform.scale(fundo_game, (largura_tela, altura_tela))
 
 #texto menu
@@ -42,7 +44,7 @@ start_formatado = fonte_menu.render(mensagem, False, (160, 42, 45))
 
 #musicas
 pygame.mixer.music.set_volume(0.4)
-musica_menu = pygame.mixer.music.load("musicas\\overworld-day.mp3")
+musica_menu = pygame.mixer.music.load(os.path.join(diretorio_musicas, "overworld-day.mp3"))
 musica_menu = pygame.mixer.music.play(-1)
 
 

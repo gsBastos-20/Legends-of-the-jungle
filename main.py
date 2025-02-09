@@ -8,6 +8,11 @@ pygame.init()
 diretorio_principal = os.path.dirname(__file__)
 diretorio_sprites = os.path.join(diretorio_principal, "sprites")
 diretorio_musicas = os.path.join(diretorio_principal, "musicas")
+#baixando sprites
+sprite_birds = pygame.image.load(diretorio_sprites, "birds.32x32.png").convert_alpha()
+
+
+
 
 #funções para o jogo
 def sair_menu():

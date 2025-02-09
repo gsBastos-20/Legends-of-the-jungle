@@ -3,12 +3,22 @@ from pygame.locals import *
 import sys
 import os
 from random import randrange
+from random import randrange
 pygame.init()
 
 # diretorios
 diretorio_principal = os.path.dirname(__file__)
 diretorio_sprites = os.path.join(diretorio_principal, "sprites")
 diretorio_musicas = os.path.join(diretorio_principal, "musicas")
+
+# variaveis tela
+largura_tela = 990
+meio_largura_tela = largura_tela // 2
+altura_tela = 555
+tela = pygame.display.set_mode((largura_tela, altura_tela))
+pygame.display.set_caption("Legends Of The Jungle")
+icon = pygame.image.load(os.path.join(diretorio_sprites, "icon-game.png")).convert_alpha()
+pygame.display.set_icon(icon)
 
 # variaveis tela
 largura_tela = 990
@@ -30,7 +40,26 @@ class Birds(pygame.sprite.Sprite):
         for i in range(5):
                 img = sprite_birds.subsurface((i * 32, 0), (32,32))
                 img = pygame.transform.scale(img, (32 * 1.5, 32 * 1.5))
+        for i in range(5):
+                img = sprite_birds.subsurface((i * 32, 0), (32,32))
+                img = pygame.transform.scale(img, (32 * 1.5, 32 * 1.5))
                 Self.sprite.append(img)
+        Self.index_lista = 0
+        Self.image = Self.sprite[Self.index_lista]
+        Self.rect = Self.image.get_rect()
+        Self.rect.x = largura_tela + randrange(20, 450, 50)
+        Self.rect.y = randrange(50, 250, 50)
+
+    def update(Self):
+        Self.index_lista += 0.09
+        if Self.index_lista >= len(Self.sprite):
+            Self.index_lista = 0
+        Self.image = Self.sprite[int(Self.index_lista)]
+        Self.image = pygame.transform.scale(Self.image, (32  * 1.5, 32 * 1.5))
+        if Self.rect.topright[0] < 0: 
+            Self.rect.x = largura_tela + randrange(20, 450, 50)
+            Self.rect.y = randrange(50, 250, 30) 
+        Self.rect.x -= 4 
         Self.index_lista = 0
         Self.image = Self.sprite[Self.index_lista]
         Self.rect = Self.image.get_rect()

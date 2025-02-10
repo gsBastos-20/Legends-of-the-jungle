@@ -22,6 +22,10 @@ pygame.display.set_icon(icon)
 
 #baixando sprites
 sprite_birds = pygame.image.load(os.path.join(diretorio_sprites, "birds.32x32.png")).convert_alpha()
+sprite_chao = pygame.image.load(os.path.join(diretorio_sprites, "grass_main_128x128.png")).convert_alpha()
+sprite_player_parado = pygame.image.load(os.path.join(diretorio_sprites, "Idle.png")).convert_alpha()
+sprite_player_andando = pygame.image.load(os.path.join(diretorio_sprites, "Walk.png")).convert_alpha()
+sprite_player_jump = pygame.image.load(os.path.join(diretorio_sprites, "Jump.png")).convert_alpha()
 
 #classes
 class Birds(pygame.sprite.Sprite):
@@ -60,6 +64,34 @@ class Birds(pygame.sprite.Sprite):
             Self.rect.y = randrange(50, 250, 30) 
         Self.rect.x -= 4 
 
+class Chao(pygame.sprite.Sprite):
+    def __init__(Self, pos_x):
+        super().__init__()
+        Self.image = sprite_chao
+        Self.rect = Self.image.get_rect()
+        Self.rect.y = altura_tela - 128
+        Self.rect.x = pos_x * 128
+
+    '''def update(Self):
+        if Self.rect.topright[0] < 0:
+            Self.rect.x = largura_tela
+        Self.rect.x -= 4'''
+
+class Player(pygame.sprite.Sprite):
+    def __init__(Self):
+        super().__init__()
+        Self.sprite_idle = []
+        for i in range(6):
+            img_idle = sprite_player_parado.subsurface((i * 128, 0), (128, 128))
+            Self.sprite_idle.append(img_idle);
+        Self.sprite_walk = []
+        for i in range(8):
+            img_walk = sprite_player_andando.subsurface((i * 128, 0), (128, 128))
+            Self.sprite_walk.append(img_walk)
+        Self.sprite_jump = []
+        for i in range(12):
+            img_jump = sprite_player_jump.subsurface((i * 128), (128, 128))
+            Self.sprite_jump.append(img_jump)
 #funções para o jogo
 def sair_menu():
     global menu, musica_game
@@ -96,6 +128,9 @@ for i in range(3):
     bird = Birds()
     todas_as_sprites.add(bird)
 
+for i in range((largura_tela*2) // 128):
+    chao = Chao(i)
+    todas_as_sprites.add(chao)
 
 rodando = True
 while rodando:

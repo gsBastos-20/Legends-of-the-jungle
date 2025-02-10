@@ -78,20 +78,62 @@ class Chao(pygame.sprite.Sprite):
         Self.rect.x -= 4'''
 
 class Player(pygame.sprite.Sprite):
-    def __init__(Self):
+    def __init__(Self, pos_x):
         super().__init__()
-        Self.sprite_idle = []
+        Self.sprite = []
+        # [0] até [5]
         for i in range(6):
             img_idle = sprite_player_parado.subsurface((i * 128, 0), (128, 128))
-            Self.sprite_idle.append(img_idle);
-        Self.sprite_walk = []
+            Self.sprite.append(img_idle)
+        # [6] até [13]
         for i in range(8):
             img_walk = sprite_player_andando.subsurface((i * 128, 0), (128, 128))
-            Self.sprite_walk.append(img_walk)
-        Self.sprite_jump = []
+            Self.sprite.append(img_walk)
+        # [14] até [25]
         for i in range(12):
-            img_jump = sprite_player_jump.subsurface((i * 128), (128, 128))
-            Self.sprite_jump.append(img_jump)
+            img_jump = sprite_player_jump.subsurface((i * 128, 0), (128, 128))
+            Self.sprite.append(img_jump)
+
+        Self.index_lista = 0
+        Self.image = Self.sprite[Self.index_lista]
+        Self.rect = Self.image.get_rect()
+        Self.rect.x = pos_x
+        Self.rect.y = altura_tela - 256
+        Self.parado = True
+        Self.andando = False
+        Self.pulando= False
+
+    def andar(Self):
+        Self.andando = True
+        Self.parado = False
+
+    def update(Self):
+        if Self.parado == True:
+            if Self.index_lista > 5:
+                Self.index_lista = 0
+            Self.index_lista += 0.25
+            Self.image = Self.sprite[int(Self.index_lista)]
+            
+        if Self.andando == True:
+            if Self.index_lista > 13 or Self.index_lista < 6:
+                Self.index_lista = 6
+            Self.index_lista += 0.15
+            Self.image = Self.sprite[int(Self.index_lista)]
+            if pygame.key.get_pressed()[K_a]:
+                if Self.rect.x > 0:
+                    Self.rect.x -= 2.5
+            else:
+                Self.parado = True
+                Self.andando = False
+                pass
+            if pygame.key.get_pressed()[K_d]:
+                if Self.rect.x < largura_tela:
+                    Self.rect.x += 2.5
+            else:
+                Self.parado = True
+                Self.andando = False
+                pass
+        
 #funções para o jogo
 def sair_menu():
     global menu, musica_game
@@ -132,6 +174,8 @@ for i in range((largura_tela*2) // 128):
     chao = Chao(i)
     todas_as_sprites.add(chao)
 
+jogador = Player(100)
+todas_as_sprites.add(jogador)
 rodando = True
 while rodando:
     while menu:
@@ -157,6 +201,10 @@ while rodando:
             pygame.quit()
             exit()
 
+    if pygame.key.get_pressed()[K_a]:
+        jogador.andar()
+    if pygame.key.get_pressed()[K_d]:
+        jogador.andar()
     todas_as_sprites.draw(tela)
     todas_as_sprites.update()
 

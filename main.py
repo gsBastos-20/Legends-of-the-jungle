@@ -120,7 +120,7 @@ class Player(pygame.sprite.Sprite):
             Self.index_lista += 0.15
             Self.image = Self.sprite[int(Self.index_lista)]
             if pygame.key.get_pressed()[K_a]:
-                if Self.rect.x > 0:
+                if Self.rect.center[0] > 12:
                     Self.rect.x -= 2.5
             else:
                 Self.parado = True

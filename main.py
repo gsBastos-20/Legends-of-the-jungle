@@ -83,15 +83,15 @@ class Player(pygame.sprite.Sprite):
         Self.sprite = []
         # [0] até [5]
         for i in range(6):
-            img_idle = sprite_player_parado.subsurface((i * 128, 0), (128, 128))
+            img_idle = sprite_player_parado.subsurface((i * 128, 0), (128, 128)).convert_alpha()
             Self.sprite.append(img_idle)
         # [6] até [13]
         for i in range(8):
-            img_walk = sprite_player_andando.subsurface((i * 128, 0), (128, 128))
+            img_walk = sprite_player_andando.subsurface((i * 128, 0), (128, 128)).convert_alpha()
             Self.sprite.append(img_walk)
         # [14] até [25]
         for i in range(12):
-            img_jump = sprite_player_jump.subsurface((i * 128, 0), (128, 128))
+            img_jump = sprite_player_jump.subsurface((i * 128, 0), (128, 128)).convert_alpha()
             Self.sprite.append(img_jump)
 
         Self.index_lista = 0
@@ -129,11 +129,14 @@ class Player(pygame.sprite.Sprite):
             if pygame.key.get_pressed()[K_d]:
                 if Self.rect.x < largura_tela:
                     Self.rect.x += 2.5
+                if Self.rect.topright[0] >= largura_tela + 128:
+                    Self.rect.x = 0 - 128
             else:
                 Self.parado = True
                 Self.andando = False
                 pass
-        
+            
+            
 #funções para o jogo
 def sair_menu():
     global menu, musica_game
